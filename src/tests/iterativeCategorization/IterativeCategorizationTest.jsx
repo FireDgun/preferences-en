@@ -27,41 +27,41 @@ export default function IterativeCategorizationTest({
 
   const handleDropGood = (e) => {
     e.preventDefault();
+    const product = e.dataTransfer.getData("product");
+    if (goodProducts.includes(product) || product === "") {
+      return;
+    }
     // Only proceed if adding a product does not exceed the limit
     if (goodProducts.length < maxProductsAllowed) {
-      const product = e.dataTransfer.getData("product");
+      if (notGoodProducts.includes(product)) {
+        setNotGoodProducts((prev) => prev.filter((item) => item !== product));
+      }
 
-      if (
-        goodProducts.includes(product) ||
-        notGoodProducts.includes(product) ||
-        product === ""
-      )
-        return;
       setGoodProducts((prev) => [...prev, product]);
     } else {
       // Step 3: Show a message if the limit is exceeded
       alert(
-        "You have added the maximum number of items to the group. Please remove one item, or add it to the other group."
+        "You have added the maximum number of items to the group. Please remove one item, or add it to the other group. Please try again."
       );
     }
   };
 
   const handleDropNotGood = (e) => {
     e.preventDefault();
+    const product = e.dataTransfer.getData("product");
+    if (notGoodProducts.includes(product) || product === "") {
+      return;
+    }
     // Only proceed if adding a product does not exceed the limit
     if (notGoodProducts.length < maxProductsAllowed) {
-      const product = e.dataTransfer.getData("product");
-      if (
-        goodProducts.includes(product) ||
-        notGoodProducts.includes(product) ||
-        product === ""
-      )
-        return;
+      if (goodProducts.includes(product)) {
+        setGoodProducts((prev) => prev.filter((item) => item !== product));
+      }
       setNotGoodProducts((prev) => [...prev, product]);
     } else {
       // Step 3: Show a message if the limit is exceeded
       alert(
-        "You have added the maximum number of items to the group. Please remove one item, or add it to the other group."
+        "You have added the maximum number of items to the group. Please remove one item, or add it to the other group. Please try again."
       );
     }
   };
@@ -83,7 +83,7 @@ export default function IterativeCategorizationTest({
   return (
     <div>
       <Typography variant="h4" align="center" gutterBottom>
-        Divide the products into two groups of
+        Divide the products into two groups of{" "}
         {productsToCategorize.length % 2 === 0
           ? maxProductsAllowed
           : `${maxProductsAllowed}-${maxProductsAllowed - 1}`}{" "}

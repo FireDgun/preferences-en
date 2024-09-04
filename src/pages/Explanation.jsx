@@ -14,8 +14,10 @@ export default function Explanation() {
     <Container sx={{ padding: 10 }}>
       <Typography variant="h6" gutterBottom>
         This experiment consists of two parts. The second part will take place
-        in a week. In both parts, you will be asked to make several choices
-        between different products.
+        in a week for which you will receive double the rate. In both parts, you
+        will be asked to make several choices between different products. It is
+        extremely important that you think carefully before choosing and answer
+        as candidly as possible.
       </Typography>
 
       <Box mt={30} sx={{ display: "flex", justifyContent: "center" }}>

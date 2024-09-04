@@ -38,7 +38,18 @@ const RankedProductsTable = ({
             onDragOver={allowDrop}
             onDrop={(e) => handleDropRanked(e, index)}
           >
-            <TableCell>{index + 1}</TableCell>
+            <TableCell>
+              {index + 1}
+              <br></br>
+              {index === 0
+                ? "Most preferred"
+                : index === rankedProducts.length - 1
+                ? "Least preferred"
+                : ""}
+              {index === 0 || index === rankedProducts.length - 1 ? (
+                <br />
+              ) : null}
+            </TableCell>
             <TableCell>
               {Number.isInteger(product) ? (
                 <img

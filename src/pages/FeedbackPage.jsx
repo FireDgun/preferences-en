@@ -35,7 +35,7 @@ export default function FeedbackPage() {
         gap={3}
       >
         <Typography variant="h4" component="h1" gutterBottom>
-          Do you have any comments or feedback on the experiment?
+          Please provide comments and feedback on the experiment.
         </Typography>
         <TextField
           label="Comment"

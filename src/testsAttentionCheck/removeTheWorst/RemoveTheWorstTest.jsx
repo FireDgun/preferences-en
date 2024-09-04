@@ -5,13 +5,17 @@ import { Typography } from "@mui/material";
 import { setUserOnDb } from "../../auth/authService";
 import { useUser } from "../../providers/UserProvider";
 import { OPTIONS_NAME } from "../optionsModel";
+import { useShowBlackScreenForPeriodOfTime } from "../../providers/ShowBlackScreenForPeriodOfTimeProvider";
 
 export default function RemoveTheWorstTest({ couples, handleFinish }) {
   const [productsRank, setProductsRank] = useState([]);
   const [products, setProducts] = useState(couples.flat());
   const [timeTaken, setTimeTaken] = useState(null);
   const { user, setUser } = useUser();
+  const showBlackScreenForPeriodOfTime = useShowBlackScreenForPeriodOfTime();
+
   const handleChooseProduct = (productNumber, productName) => {
+    showBlackScreenForPeriodOfTime(500);
     if (products.length === 2) {
       let theOtherProduct = products.find(
         (product) => product !== productNumber

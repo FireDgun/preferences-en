@@ -120,9 +120,12 @@ export default function SimplePreferencesTest() {
       <Typography
         variant="h6"
         gutterBottom
-        sx={{ textAlign: "center", padding: 10 }}
+        sx={{ textAlign: "center", padding: 5 }}
       >
         Please select your preferred product
+      </Typography>
+      <Typography variant="h6" sx={{ textAlign: "center", padding: 5 }}>
+        Choice {coupleIndex + 1} of {group1Couples?.length}
       </Typography>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         {coupleIndex < group1Couples.length && (

@@ -6,6 +6,7 @@ import ROUTES from "../../routes/routesModel";
 import { setUserOnDb } from "../../auth/authService";
 import { useUser } from "../../providers/UserProvider";
 import { OPTIONS_NAME } from "../optionsModel";
+import { useShowBlackScreenForPeriodOfTime } from "../../providers/ShowBlackScreenForPeriodOfTimeProvider";
 
 export default function RemoveTheWorstTest({ couples }) {
   const [productsRank, setProductsRank] = useState([]);
@@ -13,7 +14,10 @@ export default function RemoveTheWorstTest({ couples }) {
   const [timeTaken, setTimeTaken] = useState(null);
   const { user, setUser } = useUser();
   const navigate = useNavigate();
+  const showBlackScreenForPeriodOfTime = useShowBlackScreenForPeriodOfTime();
+
   const handleChooseProduct = (productNumber, productName) => {
+    showBlackScreenForPeriodOfTime(500);
     if (products.length === 2) {
       let theOtherProduct = products.find(
         (product) => product !== productNumber
