@@ -150,11 +150,13 @@ export default function ResultsTable({ data }) {
           userObj[`Attention Question Preferences stage 2' ${index + 1}`] =
             user.preferencesStage2Attention &&
             user.preferencesStage2Attention.length > index &&
+            user.testNumber &&
             user.testNumber !== 7
               ? user.preferencesStage2Attention[index]
               : "-";
         });
-        Array.from({ length: 2 }).forEach((_, itemIndex) => {
+
+        Array.from({ length: 1 }).forEach((_, itemIndex) => {
           const item = user.preferencesStage2Attention?.[itemIndex];
           userObj[
             `Attention Question Preferences stage 2 choise ${
@@ -208,6 +210,7 @@ export default function ResultsTable({ data }) {
       setHeaders(Object.keys(flatData[0]));
     }
   }, [data]);
+  console.log(flattenedData);
 
   return (
     <Box sx={{ maxWidth: "80%", margin: "auto", mt: 4 }}>

@@ -10,7 +10,7 @@ import IterativeCategorizationManager from "../tests/iterativeCategorization/Ite
 import StaticTestManager from "../tests/static/StaticTestManager";
 import AttentionQuestionTest from "../tests/attentionQuestion/AttentionQuestionTest";
 import WelcomeStage2 from "./WelcomeStage2";
-import WelcomeStage2AfterAttention from "./WelcomeStage2AfterAttention";
+// import WelcomeStage2AfterAttention from "./WelcomeStage2AfterAttention";
 // Function to shuffle an array
 // const shuffleArray = (array) => {
 //   const shuffledArray = [...array];
@@ -47,8 +47,8 @@ export default function TestStageTwo() {
   const [testNumber, setTestNumber] = useState(null);
   const [isDidPractice, setIsDidPractice] = useState(false);
   const [isSeeWelcomePage, setIsSeeWelcomePage] = useState(false);
-  const [isSeeWelcomePageAfterAttention, setIsSeeWelcomePageAfterAttention] =
-    useState(false);
+  // const [isSeeWelcomePageAfterAttention, setIsSeeWelcomePageAfterAttention] =
+  //   useState(false);
 
   const { user } = useUser();
 
@@ -75,11 +75,13 @@ export default function TestStageTwo() {
             testNumber={testNumber}
           />
         </>
-      ) : !isSeeWelcomePageAfterAttention ? (
-        <WelcomeStage2AfterAttention
-          handleButtonClick={() => setIsSeeWelcomePageAfterAttention(true)}
-        />
       ) : (
+        // :
+        //  !isSeeWelcomePageAfterAttention ? (
+        //   <WelcomeStage2AfterAttention
+        //     handleButtonClick={() => setIsSeeWelcomePageAfterAttention(true)}
+        //   />
+        // )
         <>
           {testNumber === 0 && <RemoveTheBestTest couples={couples} />}
           {testNumber === 1 && <RemoveTheWorstTest couples={couples} />}
