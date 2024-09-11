@@ -8,7 +8,7 @@ const OPTIONS_NAME = {
   OPTION6: "vacum",
   OPTION7: "globe",
   OPTION8: "fan",
-  OPTION9: "moon",
+  OPTION9: "frame",
   OPTION10: "small_headphones",
   OPTION11: "wallet",
   OPTION12: "snow_globe",
