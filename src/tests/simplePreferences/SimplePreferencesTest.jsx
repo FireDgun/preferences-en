@@ -38,7 +38,7 @@ function shuffleArray(array) {
   return copy;
 }
 
-const group1Couples = shuffleAndGroup(group2Couples);
+const group1Couples = shuffleArray(group2Couples);
 const dummyCouples = shuffleArray([
   [10, 11],
   [12, 10],
