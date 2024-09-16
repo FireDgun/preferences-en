@@ -1,7 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { OPTIONS, OPTIONS_NAME } from "../optionsModel";
-import { group2Couples } from "../../utils/productsGroupsModels";
+import {
+  group1Couples as group1,
+  group2Couples as group2,
+} from "../../utils/productsGroupsModels";
 import { setUserOnDb } from "../../auth/authService";
 import { useUser } from "../../providers/UserProvider";
 import { useNavigate } from "react-router-dom";
@@ -9,26 +12,26 @@ import ROUTES from "../../routes/routesModel";
 import MoreDetails from "./MoreDetails";
 import { useShowBlackScreenForPeriodOfTime } from "../../providers/ShowBlackScreenForPeriodOfTimeProvider";
 import DesignedButton from "../components/DesignedButton";
-function shuffleAndGroup(arr) {
-  // Flatten the array
-  const flatArray = arr.flat();
+// function shuffleAndGroup(arr) {
+//   // Flatten the array
+//   const flatArray = arr.flat();
 
-  // Shuffle the flat array using the Fisher-Yates algorithm
-  for (let i = flatArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const temp = flatArray[i];
-    flatArray[i] = flatArray[j];
-    flatArray[j] = temp;
-  }
+//   // Shuffle the flat array using the Fisher-Yates algorithm
+//   for (let i = flatArray.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     const temp = flatArray[i];
+//     flatArray[i] = flatArray[j];
+//     flatArray[j] = temp;
+//   }
 
-  // Regroup the flat array into arrays of two elements
-  const result = [];
-  for (let i = 0; i < flatArray.length; i += 2) {
-    result.push([flatArray[i], flatArray[i + 1]]);
-  }
+//   // Regroup the flat array into arrays of two elements
+//   const result = [];
+//   for (let i = 0; i < flatArray.length; i += 2) {
+//     result.push([flatArray[i], flatArray[i + 1]]);
+//   }
 
-  return result;
-}
+//   return result;
+// }
 function shuffleArray(array) {
   let copy = array.slice();
   for (let i = copy.length - 1; i > 0; i--) {
@@ -38,7 +41,6 @@ function shuffleArray(array) {
   return copy;
 }
 
-const group1Couples = shuffleArray(group2Couples);
 const dummyCouples = shuffleArray([
   [10, 11],
   [12, 10],
@@ -47,7 +49,6 @@ const dummyCouples = shuffleArray([
   [12, 13],
   [14, 13],
 ]);
-group1Couples.push(...dummyCouples);
 export default function SimplePreferencesTest() {
   const [choise, setChoise] = useState([]);
   const [coupleIndex, setCoupleIndex] = useState(0);
@@ -56,6 +57,18 @@ export default function SimplePreferencesTest() {
   const [gender, setGender] = useState("");
   const showBlackScreenForPeriodOfTime = useShowBlackScreenForPeriodOfTime();
   const { user, setUser } = useUser();
+  const [group1Couples, setGroup1Couples] = useState([]);
+
+  useEffect(() => {
+    if (user) {
+      if (user.group % 2 === 0) {
+        setGroup1Couples([...shuffleArray(group1), ...dummyCouples]);
+      } else {
+        setGroup1Couples([...shuffleArray(group2), ...dummyCouples]);
+      }
+    }
+  }, [user]);
+  console.log(user);
   const navigate = useNavigate();
   const handleChooseProduct = async (productIndex) => {
     showBlackScreenForPeriodOfTime(500);
@@ -100,7 +113,7 @@ export default function SimplePreferencesTest() {
     if (coupleIndex === group1Couples.length + 1) {
       handleDone();
     }
-  }, [coupleIndex, handleDone]);
+  }, [coupleIndex, handleDone, group1Couples.length]);
 
   if (coupleIndex === group1Couples.length) {
     console.log("choise", choise);
