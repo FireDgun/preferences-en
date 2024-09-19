@@ -16,6 +16,7 @@ export default function LogIn() {
 
   useEffect(() => {
     setId(searchParams.get("PROLIFIC_PID"));
+    localStorage.clear();
   }, [searchParams]);
 
   const handleLogin = async () => {
