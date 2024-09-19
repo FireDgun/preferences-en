@@ -48,20 +48,25 @@ export default function RemoveTheWorstTest({ couples }) {
     };
 
     const handleDone = async () => {
+      let timeTakenCalculation = (Date.now() - timeTaken) / 1000;
+      let stage2Timestamp = Date.now();
+      let prize = choosePrize(productsRank.toReversed());
+
       await setUserOnDb({
         ...user,
         preferencesStage2: productsRank.toReversed(),
-        stage: 3,
         testNumber: 1,
-        timeTaken: (Date.now() - timeTaken) / 1000,
-        stage2Timestamp: Date.now(),
-        prize: choosePrize(productsRank.toReversed()),
+        timeTaken: timeTakenCalculation,
+        stage2Timestamp: stage2Timestamp,
+        prize: prize,
       });
       setUser((prev) => ({
         ...prev,
         preferencesStage2: productsRank.toReversed(),
-        stage: 3,
         testNumber: 1,
+        timeTaken: timeTakenCalculation,
+        stage2Timestamp: stage2Timestamp,
+        prize: prize,
       }));
       navigate(ROUTES.FEEDBACK);
     };

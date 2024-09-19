@@ -63,20 +63,24 @@ export default function IterativeCategorizationManager({ couples }) {
   useEffect(() => {
     const handleDone = async () => {
       let productsNames = handleProductNames(productsFinalRank);
+      let timeTakenCalculation = (Date.now() - timeTaken) / 1000;
+      let stage2Timestamp = Date.now();
+
       await setUserOnDb({
         ...user,
         preferencesStage2: productsNames,
-        stage: 3,
         testNumber: 5,
-        timeTaken: (Date.now() - timeTaken) / 1000,
-        stage2Timestamp: Date.now(),
+        timeTaken: timeTakenCalculation,
+        stage2Timestamp: stage2Timestamp,
         prize: prize,
       });
       setUser((prev) => ({
         ...prev,
         preferencesStage2: productsNames,
-        stage: 3,
         testNumber: 5,
+        timeTaken: timeTakenCalculation,
+        stage2Timestamp: stage2Timestamp,
+        prize: prize,
       }));
       navigate(ROUTES.FEEDBACK);
     };

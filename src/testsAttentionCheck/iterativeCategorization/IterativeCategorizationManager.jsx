@@ -62,15 +62,18 @@ export default function IterativeCategorizationManager({
   useEffect(() => {
     const handleDone = async () => {
       let productsNames = handleProductNames(productsFinalRank);
+      let timeTakenCalculation = (Date.now() - timeTaken) / 1000;
+
       await setUserOnDb({
         ...user,
         preferencesStage2Attention: productsNames,
 
-        timeTakenAttention: (Date.now() - timeTaken) / 1000,
+        timeTakenAttention: timeTakenCalculation,
       });
       setUser((prev) => ({
         ...prev,
         preferencesStage2Attention: productsNames,
+        timeTakenAttention: timeTakenCalculation,
       }));
       handleFinish();
     };

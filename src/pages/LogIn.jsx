@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { postOrGetUserId } from "../auth/authService";
-import { Button, Container, TextField, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Button, Container } from "@mui/material";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import ROUTES from "../routes/routesModel";
 import { useUser } from "../providers/UserProvider";
 import adminUser from "../lib/adminUser";
@@ -12,6 +12,12 @@ export default function LogIn() {
   const navigate = useNavigate();
   const { setUser } = useUser();
   const { isStageOneOpen } = useStageTwo();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    setId(searchParams.get("PROLIFIC_PID"));
+  }, [searchParams]);
+
   const handleLogin = async () => {
     const userFromDb = await postOrGetUserId(id);
     setUser(userFromDb);
@@ -39,22 +45,22 @@ export default function LogIn() {
         gap: 2,
       }}
     >
-      <Typography variant="h6" gutterBottom>
+      {/* <Typography variant="h6" gutterBottom>
         Please enter your ID
-      </Typography>
+      </Typography> */}
 
-      <TextField
+      {/* <TextField
         value={id}
         onChange={(e) => setId(e.target.value)}
-        type="number"
         placeholder="ID"
-      />
+      /> */}
       <Button
         onClick={handleLogin}
         variant="contained"
-        disabled={id.length === 0}
+        disabled={!!!id}
+        size="large"
       >
-        Enter
+        Start
       </Button>
     </Container>
   );

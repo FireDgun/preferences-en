@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import * as XLSX from "xlsx";
 
-const colsWithLeftBorder = ["12", "28", "39", "51"];
+const colsWithLeftBorder = ["14", "31", "40", "50"];
 // Helper function to determine the stage description
 const getStageDescription = (stage) => {
   switch (stage) {
@@ -114,6 +114,8 @@ export default function ResultsTable({ data }) {
           Age: user.age,
           Gender: user.gender,
           Group: user.group,
+          "Attention Difficulties": user.attentionDifficulties,
+          Adhd: user.adhd,
           Prize: user.prize || "",
           feedback: user.feedback || "",
           "transitivity Result":
@@ -150,8 +152,7 @@ export default function ResultsTable({ data }) {
           userObj[`Attention Question Preferences stage 2' ${index + 1}`] =
             user.preferencesStage2Attention &&
             user.preferencesStage2Attention.length > index &&
-            user.testNumber &&
-            user.testNumber !== 7
+            user.testNumber < 7
               ? user.preferencesStage2Attention[index]
               : "-";
         });
@@ -159,19 +160,13 @@ export default function ResultsTable({ data }) {
         Array.from({ length: 1 }).forEach((_, itemIndex) => {
           const item = user.preferencesStage2Attention?.[itemIndex];
           userObj[
-            `Attention Question Preferences stage 2 choise ${
-              itemIndex + 1
-            } - preferred`
+            `Attention Question Preferences stage 2 dichotomous choise - preferred`
           ] = item?.win ? item.win : "-";
           userObj[
-            `Attention Question Preferences stage 2 choise ${
-              itemIndex + 1
-            } - not preferred`
+            `Attention Question Preferences stage 2 dichotomous choise - not preferred`
           ] = item?.lose ? item.lose : "-";
           userObj[
-            `Attention Question  Preferences stage 2 choise ${
-              itemIndex + 1
-            } - time`
+            `Attention Question  Preferences stage 2 dichotomous choise  - time`
           ] = item?.timeTaken ? `${item.timeTaken} seconds` : "-";
         });
         userObj["Time stage 2 Attention"] = user.timeTakenAttention
@@ -186,7 +181,7 @@ export default function ResultsTable({ data }) {
           userObj[`Preferences stage 2' ${index + 1}`] =
             user.preferencesStage2 &&
             user.preferencesStage2.length > index &&
-            user.testNumber !== 7
+            user.testNumber < 7
               ? user.preferencesStage2[index]
               : "-";
         });

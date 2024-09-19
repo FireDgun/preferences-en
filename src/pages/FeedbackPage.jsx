@@ -1,52 +1,141 @@
 import React, { useCallback, useState } from "react";
 import { setUserOnDb } from "../auth/authService";
 import { useUser } from "../providers/UserProvider";
-import ROUTES from "../routes/routesModel";
-import { useNavigate } from "react-router-dom";
-import { Container, TextField, Button, Typography, Box } from "@mui/material";
+import {
+  Container,
+  TextField,
+  Button,
+  Typography,
+  Box,
+  FormControl,
+  Select,
+  MenuItem,
+} from "@mui/material";
 
 export default function FeedbackPage() {
   const [feedback, setFeedback] = useState("");
+  const [age, setAge] = useState(0);
+  const [gender, setGender] = useState("");
+  const [adhd, setAdhd] = useState("");
+  const [attention, setAttention] = useState("");
   const { user, setUser } = useUser();
-  const navigate = useNavigate();
 
   const handleDone = useCallback(async () => {
     await setUserOnDb({
       ...user,
-      feedback: feedback,
+      feedback,
+      age,
+      gender,
+      adhd,
+      attentionDifficulties: attention,
+      stage: 3,
     });
-    setUser((prev) => ({ ...prev, feedback: feedback }));
-    navigate(ROUTES.THANK_YOU);
-  }, [feedback, navigate, setUser, user]);
+    setUser((prev) => ({
+      ...prev,
+      feedback,
+      age,
+      gender,
+      adhd,
+      attentionDifficulties: attention,
+      stage: 3,
+    }));
+    window.location.href =
+      "https://app.prolific.com/submissions/complete?cc=CBY30PGJ";
+  }, [feedback, attention, age, gender, adhd, setUser, user]);
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="xs" style={{ padding: "10px" }}>
       <Box
-        component="form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleDone();
-        }}
         display="flex"
         flexDirection="column"
-        alignItems="center"
-        justifyContent="center"
-        minHeight="100vh"
-        gap={3}
+        justifyContent="flex-start"
+        gap={1}
+        pt={3}
       >
-        <Typography variant="h4" component="h1" gutterBottom>
-          Please provide comments and feedback on the experiment.
+        <Typography variant="h6" gutterBottom>
+          Feedback Form
         </Typography>
+
         <TextField
-          label="Comment"
-          multiline
-          rows={6}
+          label="Age (Required)"
+          type="number"
           variant="outlined"
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
           fullWidth
+          required
+          size="small"
+          helperText="Please enter a valid age (1-120)."
+        />
+
+        <FormControl fullWidth required size="small">
+          <Typography variant="body2" gutterBottom>
+            Gender (Required)
+          </Typography>
+          <Select value={gender} onChange={(e) => setGender(e.target.value)}>
+            <MenuItem value="">Select Gender</MenuItem>
+            <MenuItem value="male">Male</MenuItem>
+            <MenuItem value="female">Female</MenuItem>
+            <MenuItem value="prefer not to say">Prefer not to say</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth required size="small">
+          <Typography variant="body2" gutterBottom>
+            Have you ever been diagnosed with Attention Deficit Hyperactivity
+            Disorder (ADHD)? (Required)
+          </Typography>
+          <Select value={adhd} onChange={(e) => setAdhd(e.target.value)}>
+            <MenuItem value="">Select Option</MenuItem>
+            <MenuItem value="Yes">Yes</MenuItem>
+            <MenuItem value="No">No</MenuItem>
+            <MenuItem value="prefer not to say">Prefer not to say</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth required size="small">
+          <Typography variant="body2" gutterBottom>
+            To what extent do you experience difficulties with attention and
+            focus in your daily activities? (Required)
+          </Typography>
+          <Select
+            value={attention}
+            onChange={(e) => setAttention(e.target.value)}
+          >
+            <MenuItem value="">Select Difficulty</MenuItem>
+            {[...Array(7).keys()].map((i) => (
+              <MenuItem key={i} value={i + 1}>
+                {i + 1} -{" "}
+                {i === 0 ? "Not at all" : i === 6 ? "To a great extent" : ""}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <TextField
+          label="Comments and Feedback (Optional)"
+          multiline
+          rows={3}
+          variant="outlined"
           value={feedback}
           onChange={(e) => setFeedback(e.target.value)}
+          fullWidth
+          size="small"
         />
-        <Button variant="contained" color="primary" type="submit">
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleDone}
+          size="small"
+          disabled={
+            !["male", "female", "prefer not to say"].includes(gender) ||
+            age <= 0 ||
+            age > 120 ||
+            adhd === "" ||
+            attention === ""
+          }
+        >
           Submit
         </Button>
       </Box>

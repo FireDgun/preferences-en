@@ -37,14 +37,17 @@ export default function RemoveTheWorstTest({ couples, handleFinish }) {
     }
 
     const handleDone = async () => {
+      let timeTakenCalculation = (Date.now() - timeTaken) / 1000;
+
       await setUserOnDb({
         ...user,
         preferencesStage2Attention: productsRank.toReversed(),
-        timeTakenAttention: (Date.now() - timeTaken) / 1000,
+        timeTakenAttention: timeTakenCalculation,
       });
       setUser((prev) => ({
         ...prev,
         preferencesStage2Attention: productsRank.toReversed(),
+        timeTakenAttention: timeTakenCalculation,
       }));
       handleFinish();
     };

@@ -186,22 +186,26 @@ export default function PairwiseStaticTest({ couples }) {
       const X = sumMatrices(x1, x2, x3, x4, x5, x6, x7, x8, x9, x10);
       console.log("X is ", X);
       const transitivityResult = sumMainDiagonal(X);
-      console.log(transitivityResult);
+      let timeTakenCalculation = (Date.now() - startTime) / 1000;
+      let stage2Timestamp = Date.now();
+      let prize = choosePrize([...choise, ...user.preferencesStage1]);
       await setUserOnDb({
         ...user,
         preferencesStage2Choises: choise,
-        stage: 3,
         testNumber: 7,
-        timeTaken: (Date.now() - startTime) / 1000,
-        stage2Timestamp: Date.now(),
+        timeTaken: timeTakenCalculation,
+        stage2Timestamp: stage2Timestamp,
         transitivityResult: transitivityResult,
-        prize: choosePrize([...choise, ...user.preferencesStage1]),
+        prize: prize,
       });
       setUser((prev) => ({
         ...prev,
-        preferencesStage2: choise,
-        stage: 3,
+        preferencesStage2Choises: choise,
         testNumber: 7,
+        timeTaken: timeTakenCalculation,
+        stage2Timestamp: stage2Timestamp,
+        transitivityResult: transitivityResult,
+        prize: prize,
       }));
       navigate(ROUTES.FEEDBACK);
     };

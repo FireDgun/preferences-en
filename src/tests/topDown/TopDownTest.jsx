@@ -74,22 +74,29 @@ export default function TopDownTest({ couples }) {
   const handleDone = useCallback(async () => {
     let productsNames = handleProductNames(productsRank);
     productsNames = productsNames.toReversed();
+    let timeTakenCalculation = (Date.now() - timeTaken) / 1000;
+    let stage2Timestamp = Date.now();
+    let prize = choosePrize([...choise, ...user.preferencesStage1]);
+
     await setUserOnDb({
       ...user,
       preferencesStage2: productsNames,
-      stage: 3,
       testNumber: 4,
-      timeTaken: (Date.now() - timeTaken) / 1000,
-      stage2Timestamp: Date.now(),
+      timeTaken: timeTakenCalculation,
+      stage2Timestamp: stage2Timestamp,
       choiseCount: choiseCount,
       preferencesStage2Choises: choise,
-      prize: choosePrize([...choise, ...user.preferencesStage1]),
+      prize: prize,
     });
     setUser((prev) => ({
       ...prev,
       preferencesStage2: productsNames,
-      stage: 3,
       testNumber: 4,
+      timeTaken: timeTakenCalculation,
+      stage2Timestamp: stage2Timestamp,
+      choiseCount: choiseCount,
+      preferencesStage2Choises: choise,
+      prize: prize,
     }));
     navigate(ROUTES.FEEDBACK);
   }, [navigate, productsRank, setUser, timeTaken, user, choiseCount, choise]);

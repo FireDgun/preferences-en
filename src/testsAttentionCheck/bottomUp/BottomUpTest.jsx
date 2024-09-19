@@ -72,15 +72,16 @@ export default function BottomUpTest({ couples, handleFinish }) {
     }
     const handleDone = async () => {
       let productsNames = handleProductNames(productsRank);
+      let timeTakenCalculation = (Date.now() - timeTaken) / 1000;
       await setUserOnDb({
         ...user,
         preferencesStage2Attention: productsNames,
-
-        timeTakenAttention: (Date.now() - timeTaken) / 1000,
+        timeTakenAttention: timeTakenCalculation,
       });
       setUser((prev) => ({
         ...prev,
         preferencesStage2Attention: productsNames,
+        timeTakenAttention: timeTakenCalculation,
       }));
       handleFinish();
     };

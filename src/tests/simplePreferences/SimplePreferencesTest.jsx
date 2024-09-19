@@ -9,7 +9,6 @@ import { setUserOnDb } from "../../auth/authService";
 import { useUser } from "../../providers/UserProvider";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/routesModel";
-import MoreDetails from "./MoreDetails";
 import { useShowBlackScreenForPeriodOfTime } from "../../providers/ShowBlackScreenForPeriodOfTimeProvider";
 import DesignedButton from "../components/DesignedButton";
 // function shuffleAndGroup(arr) {
@@ -53,8 +52,7 @@ export default function SimplePreferencesTest() {
   const [choise, setChoise] = useState([]);
   const [coupleIndex, setCoupleIndex] = useState(0);
   const [startTime, setStartTime] = useState(Date.now());
-  const [age, setAge] = useState(0);
-  const [gender, setGender] = useState("");
+
   const showBlackScreenForPeriodOfTime = useShowBlackScreenForPeriodOfTime();
   const { user, setUser } = useUser();
   const [group1Couples, setGroup1Couples] = useState([]);
@@ -97,36 +95,27 @@ export default function SimplePreferencesTest() {
     }
   };
   const handleDone = useCallback(async () => {
+    let now = Date.now();
     await setUserOnDb({
       ...user,
       preferencesStage1: choise,
       stage: 2,
-      age: age,
-      gender: gender,
-      stage1Timestamp: Date.now(),
+      stage1Timestamp: now,
     });
-    setUser((prev) => ({ ...prev, preferencesStage1: choise, stage: 2 }));
+    setUser((prev) => ({
+      ...prev,
+      preferencesStage1: choise,
+      stage: 2,
+      stage1Timestamp: now,
+    }));
     navigate(ROUTES.TEST_STAGE_ONE_FINISH);
-  }, [age, choise, gender, navigate, setUser, user]);
+  }, [choise, navigate, setUser, user]);
 
   useEffect(() => {
-    if (coupleIndex === group1Couples.length + 1) {
+    if (coupleIndex === group1Couples.length && group1Couples.length > 0) {
       handleDone();
     }
   }, [coupleIndex, handleDone, group1Couples.length]);
-
-  if (coupleIndex === group1Couples.length) {
-    console.log("choise", choise);
-    return (
-      <MoreDetails
-        age={age}
-        setAge={setAge}
-        gender={gender}
-        setGender={setGender}
-        setCoupleIndex={setCoupleIndex}
-      />
-    );
-  }
 
   return (
     <Box padding={10}>

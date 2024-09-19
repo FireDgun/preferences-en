@@ -85,14 +85,17 @@ export default function PairwiseStaticTest({ couples, handleFinish }) {
     }
 
     const handleDone = async () => {
+      let timeTakenCalculation = (Date.now() - startTime) / 1000;
+
       await setUserOnDb({
         ...user,
         preferencesStage2Attention: choise,
-        timeTakenAttention: (Date.now() - startTime) / 1000,
+        timeTakenAttention: timeTakenCalculation,
       });
       setUser((prev) => ({
         ...prev,
         preferencesStage2Attention: choise,
+        timeTakenAttention: timeTakenCalculation,
       }));
       handleFinish();
     };

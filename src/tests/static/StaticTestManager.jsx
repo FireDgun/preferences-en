@@ -50,21 +50,24 @@ export default function StaticTestManager({ couples }) {
 
   const handleDone = async (rankedProducts) => {
     let productsNames = handleProductNames(rankedProducts);
-
+    let timeTakenCalculation = (Date.now() - timeTaken) / 1000;
+    let stage2Timestamp = Date.now();
+    let prize = choosePrize(productsNames);
     await setUserOnDb({
       ...user,
       preferencesStage2: productsNames,
-      stage: 3,
       testNumber: 6,
-      timeTaken: (Date.now() - timeTaken) / 1000,
-      stage2Timestamp: Date.now(),
-      prize: choosePrize(productsNames),
+      timeTaken: timeTakenCalculation,
+      stage2Timestamp: stage2Timestamp,
+      prize: prize,
     });
     setUser((prev) => ({
       ...prev,
       preferencesStage2: productsNames,
-      stage: 3,
       testNumber: 6,
+      timeTaken: timeTakenCalculation,
+      stage2Timestamp: stage2Timestamp,
+      prize: prize,
     }));
     navigate(ROUTES.FEEDBACK);
   };

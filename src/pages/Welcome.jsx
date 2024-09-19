@@ -33,7 +33,7 @@ export default function Welcome() {
         are no right or wrong answers, and what matters to us is that you answer
         honestly. The answers are anonymous, and the data collected will be used
         for academic research purposes only. The estimated time to complete all
-        questions is about 10 minutes, and you may stop at any time. If you
+        questions is about 5 minutes, and you may stop at any time. If you
         encounter any problems, you can contact the research team by email.
       </Typography>
       <Typography variant="h6" gutterBottom>

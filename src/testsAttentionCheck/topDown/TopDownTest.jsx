@@ -68,14 +68,17 @@ export default function TopDownTest({ couples, handleFinish }) {
   const handleDone = useCallback(async () => {
     let productsNames = handleProductNames(productsRank);
     productsNames = productsNames.toReversed();
+    let timeTakenCalculation = (Date.now() - timeTaken) / 1000;
+
     await setUserOnDb({
       ...user,
       preferencesStage2Attention: productsNames,
-      timeTakenAttention: (Date.now() - timeTaken) / 1000,
+      timeTakenAttention: timeTakenCalculation,
     });
     setUser((prev) => ({
       ...prev,
       preferencesStage2Attention: productsNames,
+      timeTakenAttention: timeTakenCalculation,
     }));
     handleFinish();
     console.log(choise); //use it just for cancel the warning
