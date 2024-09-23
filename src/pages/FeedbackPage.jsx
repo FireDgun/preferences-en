@@ -52,12 +52,8 @@ export default function FeedbackPage() {
         gap={1}
         pt={3}
       >
-        <Typography variant="h6" gutterBottom>
-          Feedback Form
-        </Typography>
-
         <TextField
-          label="Age (Required)"
+          label="Age*"
           type="number"
           variant="outlined"
           value={age}
@@ -70,7 +66,7 @@ export default function FeedbackPage() {
 
         <FormControl fullWidth required size="small">
           <Typography variant="body2" gutterBottom>
-            Gender (Required)
+            Gender*
           </Typography>
           <Select value={gender} onChange={(e) => setGender(e.target.value)}>
             <MenuItem value="">Select Gender</MenuItem>
@@ -83,7 +79,7 @@ export default function FeedbackPage() {
         <FormControl fullWidth required size="small">
           <Typography variant="body2" gutterBottom>
             Have you ever been diagnosed with Attention Deficit Hyperactivity
-            Disorder (ADHD)? (Required)
+            Disorder (ADHD)?*
           </Typography>
           <Select value={adhd} onChange={(e) => setAdhd(e.target.value)}>
             <MenuItem value="">Select Option</MenuItem>
@@ -96,7 +92,7 @@ export default function FeedbackPage() {
         <FormControl fullWidth required size="small">
           <Typography variant="body2" gutterBottom>
             To what extent do you experience difficulties with attention and
-            focus in your daily activities? (Required)
+            focus in your daily activities?*
           </Typography>
           <Select
             value={attention}
