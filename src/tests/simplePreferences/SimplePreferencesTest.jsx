@@ -7,8 +7,6 @@ import {
 } from "../../utils/productsGroupsModels";
 import { setUserOnDb } from "../../auth/authService";
 import { useUser } from "../../providers/UserProvider";
-import { useNavigate } from "react-router-dom";
-import ROUTES from "../../routes/routesModel";
 import { useShowBlackScreenForPeriodOfTime } from "../../providers/ShowBlackScreenForPeriodOfTimeProvider";
 import DesignedButton from "../components/DesignedButton";
 // function shuffleAndGroup(arr) {
@@ -67,7 +65,6 @@ export default function SimplePreferencesTest() {
     }
   }, [user]);
   console.log(user);
-  const navigate = useNavigate();
   const handleChooseProduct = async (productIndex) => {
     showBlackScreenForPeriodOfTime(500);
     if (coupleIndex < group1Couples.length) {
@@ -110,7 +107,7 @@ export default function SimplePreferencesTest() {
     }));
     window.location.href =
       "https://app.prolific.com/submissions/complete?cc=CBY30PGJ";
-  }, [choise, navigate, setUser, user]);
+  }, [choise, setUser, user]);
 
   useEffect(() => {
     if (coupleIndex === group1Couples.length && group1Couples.length > 0) {
