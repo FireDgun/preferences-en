@@ -108,7 +108,8 @@ export default function SimplePreferencesTest() {
       stage: 2,
       stage1Timestamp: now,
     }));
-    navigate(ROUTES.TEST_STAGE_ONE_FINISH);
+    window.location.href =
+      "https://app.prolific.com/submissions/complete?cc=CBY30PGJ";
   }, [choise, navigate, setUser, user]);
 
   useEffect(() => {
