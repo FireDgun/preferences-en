@@ -40,7 +40,7 @@ export default function FeedbackPage() {
       stage: 3,
     }));
     window.location.href =
-      "https://app.prolific.com/submissions/complete?cc=CBY30PGJ";
+      "https://app.prolific.com/submissions/complete?cc=CVM03WLM";
   }, [feedback, attention, age, gender, adhd, setUser, user]);
 
   return (
