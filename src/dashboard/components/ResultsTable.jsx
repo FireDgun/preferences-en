@@ -10,6 +10,7 @@ import {
   Typography,
   Box,
   Button,
+  TablePagination,
 } from "@mui/material";
 import * as XLSX from "xlsx";
 
@@ -59,7 +60,7 @@ const timestampToDateTimeString = (timestamp) => {
 };
 
 const calculatePoints = (user) => {
-  if (!user.preferencesStage1 || !user.preferencesStage2) {
+  if (user.stage !== 3) {
     return 0;
   }
   let points = 0;
@@ -68,6 +69,7 @@ const calculatePoints = (user) => {
       user.preferencesStage1[i].win,
       user.preferencesStage1[i].lose,
     ];
+
     if (user.testNumber < 7) {
       let item1Rank = user.preferencesStage2.findIndex(
         (item) => item === user.preferencesStage1[i].win
@@ -79,9 +81,10 @@ const calculatePoints = (user) => {
         points++;
       }
     } else {
-      let sameCouple = user.preferencesStage2.find(
+      let sameCouple = user.preferencesStage2Choises.find(
         (item) => oldCouple.includes(item.win) && oldCouple.includes(item.lose)
       );
+
       if (sameCouple.win === oldCouple[0]) {
         points++;
       }
@@ -92,6 +95,9 @@ const calculatePoints = (user) => {
 export default function ResultsTable({ data }) {
   const [flattenedData, setFlattenedData] = useState([]);
   const [headers, setHeaders] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10); // Default rows per page
+
   const exportToExcel = () => {
     const wb = XLSX.utils.book_new();
     const ws = XLSX.utils.json_to_sheet(flattenedData);
@@ -205,7 +211,6 @@ export default function ResultsTable({ data }) {
       setHeaders(Object.keys(flatData[0]));
     }
   }, [data]);
-  console.log(flattenedData);
 
   return (
     <Box sx={{ maxWidth: "80%", margin: "auto", mt: 4 }}>
@@ -240,33 +245,48 @@ export default function ResultsTable({ data }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {flattenedData.map((item, rowIndex) => (
-              <TableRow
-                key={rowIndex}
-                sx={{ "&:nth-of-type(odd)": { backgroundColor: "#f9f9f9" } }}
-              >
-                {headers.map((header, colIndex) => (
-                  <TableCell
-                    key={`${rowIndex}-${colIndex}`}
-                    align="center"
-                    sx={{
-                      borderRight: colsWithLeftBorder.includes(
-                        colIndex.toString()
-                      )
-                        ? "1px solid #e0e0e0"
-                        : "none",
-                    }}
-                  >
-                    <Typography variant="body2">
-                      {item[header] !== undefined ? item[header] : ""}
-                    </Typography>
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+            {flattenedData
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((item, rowIndex) => (
+                <TableRow
+                  key={rowIndex}
+                  sx={{ "&:nth-of-type(odd)": { backgroundColor: "#f9f9f9" } }}
+                >
+                  {headers.map((header, colIndex) => (
+                    <TableCell
+                      key={`${rowIndex}-${colIndex}`}
+                      align="center"
+                      sx={{
+                        borderRight: colsWithLeftBorder.includes(
+                          colIndex.toString()
+                        )
+                          ? "1px solid #e0e0e0"
+                          : "none",
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item[header] !== undefined ? item[header] : ""}
+                      </Typography>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {/* Table Pagination Component */}
+      <TablePagination
+        component="div"
+        count={flattenedData.length}
+        page={page}
+        onPageChange={(event, newPage) => setPage(newPage)}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={(event) =>
+          setRowsPerPage(parseInt(event.target.value, 10))
+        }
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        labelRowsPerPage="Rows per page"
+      />
     </Box>
   );
 }
