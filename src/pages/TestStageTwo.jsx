@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useUser } from "../providers/UserProvider";
-import { group1Couples, group2Couples } from "../utils/productsGroupsModels";
+import { group1Couples } from "../utils/productsGroupsModels";
 import RemoveTheBestTest from "../tests/removeTheBest/RemoveTheBestTest";
 import RemoveTheWorstTest from "../tests/removeTheWorst/RemoveTheWorstTest";
 import BottomUpTest from "../tests/bottomUp/BottomUpTest";
@@ -53,15 +53,13 @@ export default function TestStageTwo() {
   const { user } = useUser();
 
   useEffect(() => {
-    if (user) {
-      if (user.group % 2 === 0) {
-        setCouples(shuffleAndGroup(group1Couples));
-      } else {
-        setCouples(shuffleAndGroup(group2Couples));
-      }
-      setTestNumber((user.group - 1) % 7);
-    }
+    setCouples(shuffleAndGroup(group1Couples));
+  }, []);
+
+  useEffect(() => {
+    setTestNumber((user.group - 1) % 7);
   }, [user]);
+
   if (user === null) return null;
   testNumber === null && <div>Loading...</div>;
   return (
