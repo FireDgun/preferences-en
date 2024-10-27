@@ -31,7 +31,16 @@ const decideAboutUserGroups = async () => {
     const coll = collection(db, "users");
     const snapshot = await getCountFromServer(coll);
     const size = snapshot.data().count - 1;
-    const group = (size % 14) + 1;
+    let group = (size % 4) + 1;
+    if (group === 1) {
+      group = 3;
+    } else if (group === 2) {
+      group = 4;
+    } else if (group === 3) {
+      group = 10;
+    } else if (group === 4) {
+      group = 11;
+    }
     return group;
   } catch (error) {
     console.error("Error in decideAboutUserGroups:", error);
